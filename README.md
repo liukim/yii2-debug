@@ -1,55 +1,45 @@
-Debug Extension for Yii 2
-=========================
+How to use ?
 
-This extension provides a debugger for [Yii framework 2.0](http://www.yiiframework.com) applications. When this extension is used,
-a debugger toolbar will appear at the bottom of every page. The extension also provides
-a set of standalone pages to display more detailed debug information.
+1.replace the src Debug Extension
 
-For license information check the [LICENSE](LICENSE.md)-file.
+2.modify the Yii.php (in vendor\yiisoft\yii2\Yii.php) as follow ：
+```
+<?php
+/**
+ * Yii bootstrap file.
+ *
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright (c) 2008 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
 
-Documentation is at [docs/guide/README.md](docs/guide/README.md).
+require(__DIR__ . '/BaseYii.php');	
+// add dump file
+require_once(__DIR__ . '/../yii2-debug/dump/Dump.php');
 
-[![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2-debug/v/stable.png)](https://packagist.org/packages/yiisoft/yii2-debug)
-[![Total Downloads](https://poser.pugx.org/yiisoft/yii2-debug/downloads.png)](https://packagist.org/packages/yiisoft/yii2-debug)
+/**
+ * Yii is a helper class serving common framework functionalities.
+ *
+ * It extends from [[\yii\BaseYii]] which provides the actual implementation.
+ * By writing your own Yii class, you can customize some functionalities of [[\yii\BaseYii]].
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @since 2.0
+ */
+class Yii extends \yii\BaseYii
+{
+    // add static member
+	public static $dump;
+}
 
-
-Installation
-------------
-
-The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
-
-Either run
+spl_autoload_register(['Yii', 'autoload'], true, true);
+Yii::$classMap = include(__DIR__ . '/classes.php');
+Yii::$container = new yii\di\Container;
+Yii::$dump = new Dump();
+```
+3.dump the debug info 
 
 ```
-php composer.phar require --prefer-dist yiisoft/yii2-debug
+Yii::$dump->r($var);
 ```
 
-or add
-
-```
-"yiisoft/yii2-debug": "~2.0.0"
-```
-
-to the require section of your `composer.json` file.
-
-
-Usage
------
-
-Once the extension is installed, simply modify your application configuration as follows:
-
-```php
-return [
-    'bootstrap' => ['debug'],
-    'modules' => [
-        'debug' => [
-            'class' => 'yii\debug\Module',
-        ],
-        // ...
-    ],
-    ...
-];
-```
-
-You will see a debugger toolbar showing at the bottom of every page of your application.
-You can click on the toolbar to see more detailed debug information.
