@@ -1,4 +1,4 @@
-Debug Extension for Yii 2 LiuKim
+Debug Extension for Yii 2
 =========================
 
 This extension provides a debugger for [Yii framework 2.0](http://www.yiiframework.com) applications. When this extension is used,

@@ -21,6 +21,10 @@ class DebugAsset extends AssetBundle
     public $css = [
         'main.css',
         'toolbar.css',
+        'ref.css',
+    ];
+    public $js = [
+        'ref.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
